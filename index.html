@@ -23,7 +23,7 @@
       text-align: center;
     }
     .form-group {
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
     .form-group label {
       display: block;
@@ -39,12 +39,14 @@
     }
     .parts-section {
       margin-top: 20px;
+      margin-bottom: 20px;
     }
     .parts-buttons {
       display: flex;
       flex-wrap: wrap;
-      gap: 7px;
+      gap: 5px;
       margin-top: 10px;
+      margin-bottom: 5px;
     }
     .parts-buttons button {
       padding: 6px 10px;
@@ -68,8 +70,8 @@
     #installedParts {
       margin-top: 20px;
       padding: 10px;
-      background-color: #f8f9fa;
-      border: 1px solid #ddd;
+      background-color: #fed6d6;
+      border: 1px solid #ffa3a3;
       border-radius: 4px;
     }
     .action-buttons {
@@ -185,6 +187,12 @@
         <button onclick="addPart('At Shop Repair', 3500)">At Shop Repair</button>
         <button onclick="addPart('In-City Repair', 6000)">In-City Repair</button>
         <button onclick="addPart('Outside of City Repair', 8500)">Outside of City Repair</button>
+      </div>
+
+      <!-- Promotions/Specials-->
+      <h4>Shop Specials/Promotions</h4>
+      <div class="parts-buttons">
+        <button onclick="addPart('TEST', 0)">TEST</button>
       </div>
     </div>
     
