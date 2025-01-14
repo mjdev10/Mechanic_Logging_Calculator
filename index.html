@@ -138,10 +138,8 @@
       <input type="text" id="vehicleModel" placeholder="Enter vehicle model">
     </div>
     
-    <!-- Parts Section -->
     <div class="parts-section">
       <h2>Parts Applied</h2>
-      <!-- Servicing -->
       <h4>Servicing</h4>
       <div class="parts-buttons">
         <button onclick="addPart('Engine Oil', 1000)">Engine Oil</button>
@@ -154,7 +152,6 @@
         <button onclick="addPart('Full Service', 18400)">Full Service</button>
       </div>
 
-      <!-- Tuning -->
       <h4>Tuning</h4>
       <div class="parts-buttons">
         <button onclick="addPart('Ceramic Brakes', 25000)">Ceramic Brakes</button>
@@ -171,7 +168,6 @@
         <button onclick="addPart('Offroad Tyres', 11000)">Offroad Tyres</button>
       </div>
 
-      <!-- Customization -->
       <h4>Customization</h4>
       <div class="parts-buttons">
         <button onclick="addPart('Body Kit', 5000)">Body Kit</button>
@@ -185,7 +181,6 @@
         <button onclick="addPart('Tyre Smoke', 3000)">Tyre Smoke</button>
       </div>
 
-      <!-- Repairs -->
       <h4>Repairs</h4>
       <div class="parts-buttons">
         <button onclick="addPart('At Shop Repair', 3500)">At Shop Repair</button>
@@ -193,21 +188,18 @@
         <button onclick="addPart('Outside of City Repair', 8500)">Outside of City Repair</button>
       </div>
 
-      <!-- Promotions/Specials-->
       <h4>Shop Specials/Promotions</h4>
       <div class="parts-buttons">
-        <button onclick="addPart('TEST', 0)">TEST</button>
+        <button onclick="addPart('PD Repair', 2000)">PD Repair</button>
       </div>
     </div>
     
-    <!-- Total Price Section -->
     <div id="total">Total: $0</div>
     <div id="installedParts" class="parts-applied">
       <h4>Installed Parts</h4>
       <div id="partsList"></div>
     </div>
 
-    <!-- Action Buttons -->
     <div class="action-buttons">
       <button onclick="undoLastAction()" class="undo">Undo Last Action</button>
       <button onclick="sendToDiscord()">Send Discord Log</button>
@@ -278,8 +270,10 @@
       document.getElementById('total').textContent = 'Total: $0';
       updatePartsApplied();
     }
+
     function sendToDiscord() {
-      const webhookURL = "https://discord.com/api/webhooks/1319519817442660414/KhBih1B7xImoJOZN5w1pHrFKcZ2AmtERj8Odx-i5OzLyXj2Qwe4quzbqUUdxuFB6lvAN"; // Replace this with your actual webhook URL
+      const generalWebhookURL = "https://discord.com/api/webhooks/1319519817442660414/KhBih1B7xImoJOZN5w1pHrFKcZ2AmtERj8Odx-i5OzLyXj2Qwe4quzbqUUdxuFB6lvAN"; // Replace with your actual webhook URL
+      const pdRepairWebhookURL = "https://discord.com/api/webhooks/1328540858831863870/PMi_83VSGsMVnb66ZVedEaZKhUVF60g7mZYKVrG_GUEKZIU_Tr84jALegi4HB-Hc9FkB"; // Replace with your actual PD Repair webhook URL
 
       const logData = {
         content: "**Mechanic Log Submission**",
@@ -304,6 +298,8 @@
           },
         ],
       };
+
+      const webhookURL = partsApplied["PD Repair"] ? pdRepairWebhookURL : generalWebhookURL;
 
       fetch(webhookURL, {
         method: "POST",
