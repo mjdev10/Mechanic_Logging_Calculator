@@ -273,52 +273,49 @@
     }
 
     function sendToDiscord() {
-      const generalWebhookURL = "https://discord.com/api/webhooks/1319519817442660414/KhBih1B7xImoJOZN5w1pHrFKcZ2AmtERj8Odx-i5OzLyXj2Qwe4quzbqUUdxuFB6lvAN"; // Replace with your actual webhook URL
-      const pdRepairWebhookURL = "https://discord.com/api/webhooks/1328540858831863870/PMi_83VSGsMVnb66ZVedEaZKhUVF60g7mZYKVrG_GUEKZIU_Tr84jALegi4HB-Hc9FkB"; // Replace with your actual PD Repair webhook URL
+  const generalWebhookURL = "https://discord.com/api/webhooks/1319519817442660414/KhBih1B7xImoJOZN5w1pHrFKcZ2AmtERj8Odx-i5OzLyXj2Qwe4quzbqUUdxuFB6lvAN"; // Replace with your actual webhook URL
+  const pdRepairWebhookURL = "https://discord.com/api/webhooks/1328540858831863870/PMi_83VSGsMVnb66ZVedEaZKhUVF60g7mZYKVrG_GUEKZIU_Tr84jALegi4HB-Hc9FkB"; // Replace with your actual PD Repair webhook URL
 
-      const logData = {
-        content: "**Mechanic Log Submission**",
-        embeds: [
-          {
-            title: "Mechanic Log Details",
-            color: 3447003,
-            fields: [
-              { name: "Customer Name", value: document.getElementById('customerName').value || 'N/A', inline: true },
-              { name: "Mechanic", value: document.getElementById('mechanicName').value || 'N/A', inline: true },
-              { name: "Plate Number", value: document.getElementById('plateNumber').value || 'N/A', inline: true },
-              { name: "Vehicle Model", value: document.getElementById('vehicleModel').value || 'N/A', inline: true },
-              {
-                name: "Parts Applied",
-                value: Object.entries(partsApplied)
-                  .map(([part, count]) => `${part} x${count}`)
-                  .join('\n') || "No parts applied",
-                inline: false,
-              },
-              { name: "Total Price", value: `$${total}`, inline: false }
-            ],
-          },
-        ],
-      };
+  const messageContent = `\`\`\`
+Mechanic Log Submission
+------------------------
+Customer Name: ${document.getElementById('customerName').value || 'N/A'}
+Mechanic: ${document.getElementById('mechanicName').value || 'N/A'}
+Plate Number: ${document.getElementById('plateNumber').value || 'N/A'}
+Vehicle Model: ${document.getElementById('vehicleModel').value || 'N/A'}
 
-      const webhookURL = partsApplied["PD Repair"] ? pdRepairWebhookURL : generalWebhookURL;
+Parts Applied:
+${Object.entries(partsApplied)
+    .map(([part, count]) => `- ${part} x${count}`)
+    .join('\n') || "No parts applied"}
 
-      fetch(webhookURL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(logData),
-      })
-        .then((response) => {
-          if (response.ok) {
-            alert("Log successfully sent to Discord!");
-          } else {
-            alert("Failed to send the log. Please check the webhook URL.");
-          }
-        })
-        .catch((error) => {
-          console.error("Error sending log to Discord:", error);
-          alert("An error occurred while sending the log.");
-        });
-    }
+Total Price: $${total}
+\`\`\``;
+
+  const logData = { content: messageContent };
+  const webhookURL = partsApplied["PD Repair"] ? pdRepairWebhookURL : generalWebhookURL;
+
+  fetch(webhookURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(logData),
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert("Log successfully sent to Discord!");
+      } else {
+        alert("Failed to send the log. Please check the webhook URL.");
+      }
+    })
+    .catch((error) => {
+      console.error("Error sending log to Discord:", error);
+      alert("An error occurred while sending the log.");
+    });
+}
+
+
+
+
   </script>
 </body>
 </html>
