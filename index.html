@@ -266,11 +266,18 @@
     }
 
     function clearAll() {
-      partsApplied = {};
-      total = 0;
-      document.getElementById('total').textContent = 'Total: $0';
-      updatePartsApplied();
+  // Clear the parts applied and total
+  partsApplied = {};
+  total = 0;
+  document.getElementById('total').textContent = 'Total: $0';
+  updatePartsApplied();
+
+  // Clear all input fields
+  document.querySelectorAll('input, select').forEach((field) => {
+    field.value = '';
+  });
     }
+
 
     function sendToDiscord() {
   const generalWebhookURL = "https://discord.com/api/webhooks/1319519817442660414/KhBih1B7xImoJOZN5w1pHrFKcZ2AmtERj8Odx-i5OzLyXj2Qwe4quzbqUUdxuFB6lvAN"; // Replace with your actual webhook URL
