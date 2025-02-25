@@ -204,7 +204,8 @@
     <div class="action-buttons">
       <button onclick="undoLastAction()" class="undo">Undo Last Action</button>
       <button onclick="sendToDiscord()">Send Discord Log</button>
-      <button onclick="clearAll()">Clear All</button>
+      <button onclick="clearInputFields()">Clear INPUT FIELDS</button>
+      <button onclick="clearPartsApplied()">Clear PARTS APPLIED</button>
     </div>
   </div>
   <footer>
@@ -265,18 +266,21 @@
       }
     }
 
-    function clearAll() {
-  // Clear the parts applied and total
-  partsApplied = {};
-  total = 0;
-  document.getElementById('total').textContent = 'Total: $0';
-  updatePartsApplied();
+    function clearInputFields() {
+    // Clear only the input fields
+    document.getElementById('customerName').value = '';
+    document.getElementById('mechanicName').value = ' ';
+    document.getElementById('plateNumber').value = '';
+    document.getElementById('vehicleModel').value = '';
+  }
 
-  // Clear all input fields
-  document.querySelectorAll('input, select').forEach((field) => {
-    field.value = '';
-  });
-    }
+  function clearPartsApplied() {
+    // Clear only the parts applied and reset the total
+    partsApplied = {};
+    total = 0;
+    document.getElementById('total').textContent = 'Total: $0';
+    updatePartsApplied();
+  }
 
 
     function sendToDiscord() {
