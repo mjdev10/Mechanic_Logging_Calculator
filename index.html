@@ -78,6 +78,26 @@
       display: flex;
       gap: 10px;
       margin-top: 20px;
+      justify-content: flex-start;
+    }
+    .clear-all-group {
+      display: flex;
+      gap: 20px;
+      margin-top: 20px;
+      justify-content: flex-start;
+    }
+    .clear-all {
+      flex: 1;
+      padding: 15px;
+      background-color: #f44336;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    .clear-all:hover {
+      background-color: #e53935;
     }
     .action-buttons button {
       flex: 1;
@@ -94,6 +114,9 @@
     }
     .action-buttons button.undo:hover {
       background-color: #e53935;
+    }
+    .action-buttons button:hover {
+      background-color: #45a049;
     }
     footer {
       text-align: center;
@@ -202,11 +225,18 @@
       <div id="partsList"></div>
     </div>
 
+    <!-- Grouped Action Buttons -->
     <div class="action-buttons">
       <button onclick="undoLastAction()" class="undo">Undo Last Action</button>
-      <button onclick="sendToDiscord()">Send Discord Log</button>
       <button onclick="clearInputFields()">Clear INPUT FIELDS</button>
       <button onclick="clearPartsApplied()">Clear PARTS APPLIED</button>
+    </div>
+    
+    <!-- New Large Clear Everything Button and Send Discord Log Button -->
+    <div class="action-buttons clear-all-group">
+        <button onclick="sendToDiscord()">Send Discord Log</button>
+      <button onclick="clearEverything()" class="clear-all">Clear EVERYTHING</button>
+
     </div>
   </div>
   <footer>
@@ -268,27 +298,32 @@
     }
 
     function clearInputFields() {
-    // Clear only the input fields
-    document.getElementById('customerName').value = '';
-    document.getElementById('mechanicName').value = ' ';
-    document.getElementById('plateNumber').value = '';
-    document.getElementById('vehicleModel').value = '';
-  }
+      // Clear only the input fields
+      document.getElementById('customerName').value = '';
+      document.getElementById('mechanicName').value = ' ';
+      document.getElementById('plateNumber').value = '';
+      document.getElementById('vehicleModel').value = '';
+    }
 
-  function clearPartsApplied() {
-    // Clear only the parts applied and reset the total
-    partsApplied = {};
-    total = 0;
-    document.getElementById('total').textContent = 'Total: $0';
-    updatePartsApplied();
-  }
+    function clearPartsApplied() {
+      // Clear only the parts applied and reset the total
+      partsApplied = {};
+      total = 0;
+      document.getElementById('total').textContent = 'Total: $0';
+      updatePartsApplied();
+    }
 
+    function clearEverything() {
+      // Clear all fields and reset everything
+      clearInputFields();
+      clearPartsApplied();
+    }
 
     function sendToDiscord() {
-  const generalWebhookURL = "https://discord.com/api/webhooks/1319519817442660414/KhBih1B7xImoJOZN5w1pHrFKcZ2AmtERj8Odx-i5OzLyXj2Qwe4quzbqUUdxuFB6lvAN"; // Replace with your actual webhook URL
-  const pdRepairWebhookURL = "https://discord.com/api/webhooks/1328540858831863870/PMi_83VSGsMVnb66ZVedEaZKhUVF60g7mZYKVrG_GUEKZIU_Tr84jALegi4HB-Hc9FkB"; // Replace with your actual PD Repair webhook URL
+      const generalWebhookURL = "https://discord.com/api/webhooks/1319519817442660414/KhBih1B7xImoJOZN5w1pHrFKcZ2AmtERj8Odx-i5OzLyXj2Qwe4quzbqUUdxuFB6lvAN"; // Replace with your actual webhook URL
+      const pdRepairWebhookURL = "https://discord.com/api/webhooks/1328540858831863870/PMi_83VSGsMVnb66ZVedEaZKhUVF60g7mZYKVrG_GUEKZIU_Tr84jALegi4HB-Hc9FkB"; // Replace with your actual PD Repair webhook URL
 
-  const messageContent = `\`\`\`
+      const messageContent = `\`\`\`
 Mechanic Log Submission
 ------------------------
 Customer Name: ${document.getElementById('customerName').value || 'N/A'}
@@ -298,36 +333,32 @@ Vehicle Model: ${document.getElementById('vehicleModel').value || 'N/A'}
 
 Parts Applied:
 ${Object.entries(partsApplied)
-    .map(([part, count]) => `- ${part} x${count}`)
-    .join('\n') || "No parts applied"}
+          .map(([part, count]) => `- ${part} x${count}`)
+          .join('\n') || "No parts applied"}
 
 Total Price: $${total}
 \`\`\``;
 
-  const logData = { content: messageContent };
-  const webhookURL = partsApplied["PD Repair"] ? pdRepairWebhookURL : generalWebhookURL;
+      const logData = { content: messageContent };
+      const webhookURL = partsApplied["PD Repair"] ? pdRepairWebhookURL : generalWebhookURL;
 
-  fetch(webhookURL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(logData),
-  })
-    .then((response) => {
-      if (response.ok) {
-        alert("Log successfully sent to Discord!");
-      } else {
-        alert("Failed to send the log. Please check the webhook URL.");
-      }
-    })
-    .catch((error) => {
-      console.error("Error sending log to Discord:", error);
-      alert("An error occurred while sending the log.");
-    });
-}
-
-
-
-
+      fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(logData),
+      })
+        .then((response) => {
+          if (response.ok) {
+            alert("Log successfully sent to Discord!");
+          } else {
+            alert("Failed to send the log. Please check the webhook URL.");
+          }
+        })
+        .catch((error) => {
+          console.error("Error sending log to Discord:", error);
+          alert("An error occurred while sending the log.");
+        });
+    }
   </script>
 </body>
 </html>
